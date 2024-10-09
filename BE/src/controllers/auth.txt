@@ -1,0 +1,57 @@
+export const refreshToken = async (req, res) => {
+    try {
+        const refreshToken = req.cookies.token; // lấy refreshToken từ cookie của ng dùng, Token này đc lưu trc khi ng dùng đăng nhập, nếu cookie chưa có token đồng nghĩa vs việc ng dùng chưa đăng nhập/token ko hợp lệ
+        if (!refreshToken) {
+            return res.status(STATUS.AUTHENTICATOR).json({
+                message: "Bạn chưa đăng nhập ",
+            });
+        }
+        // sử dụng hàm jwt.verify để kiểm tra refreshToken có hợp lệ ko
+        // Dòng này sử dụng hàm jwt.verify() của thư viện jsonwebtoken để kiểm tra xem refreshToken có hợp lệ không.
+        //refreshToken được kiểm tra với SECRET_REFRESH_TOKEN (bí mật này được lưu trữ trong biến môi trường .env để bảo mật).
+        Hàm này giải mã token và trả về thông tin người dùng nếu token hợp lệ. Nếu không hợp lệ (ví dụ, token đã hết hạn hoặc bị giả mạo), nó sẽ trả về lỗi (err).
+        jwt.verify(refreshToken, process.env.SECRET_REFRESH_TOKEN, async (err, user) => {
+            if (err) {
+                return res.status(STATUS.AUTHENTICATOR).json({
+                    message: "Token đã hết hạn mời bạn đăng nhập lại",
+                });
+            }
+            if (!user) {
+                return;
+            }
+            const payload = {
+                id: user.id,
+                email: user.email,
+                is_admin: user.is_admin,
+            }
+            const NewAccessToken = await generateAccessToken(payload);
+            const NewRefreshToken = await generateRefreshToken(payload);
+
+
+            //// 
+            Lưu Refresh Token mới vào cookie:
+            res.cookie("token", NewRefreshToken, {...}): Đặt NewRefreshToken vào cookie có tên là token.
+            maxAge: Đặt thời gian tồn tại của cookie là 60 ngày (24 * 60 * 60 * 1000 * 60 miligiây).
+            httpOnly: Chỉ cho phép cookie được truy cập thông qua HTTP (không thể truy cập từ JavaScript) để tăng cường bảo mật.
+            path: "/": Cookie sẽ được gửi đến mọi route trên domain.
+            sameSite: "none": Cho phép cookie được chia sẻ giữa các domain khác nhau (hữu ích khi bạn sử dụng ứng dụng frontend/backend ở các domain khác nhau).
+            secure: true: Chỉ cho phép cookie được gửi qua kết nối HTTPS, tăng cường bảo mật.
+            --->
+            res.cookie("token", NewRefreshToken, {
+                maxAge: 24 * 60 * 60 * 1000 * 60,
+                httpOnly: true,
+                path: "/",
+                sameSite: "none",
+                secure: true,
+            });
+            return res.status(STATUS.OK).json({
+                message: "Tạo token thành công",
+                accessToken: NewAccessToken,
+            });
+        })
+    } catch (error) {
+        return res.status(STATUS.INTERNAL).json({
+            message: error.message,
+        })
+    }
+}
