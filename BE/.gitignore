@@ -62,7 +62,7 @@ web_modules/
 .stylelintcache
 
 #
-.txt
+*.txt
 # Microbundle cache
 .rpt2_cache/
 .rts2_cache_cjs/
