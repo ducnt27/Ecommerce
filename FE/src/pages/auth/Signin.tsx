@@ -1,0 +1,121 @@
+import { Logo } from "@/common/icons";
+import { Form, Input, Button } from "antd";
+import React from "react";
+import { MailOutlined, LockOutlined, UserOutlined } from "@ant-design/icons";
+
+import { useMutation } from "@tanstack/react-query";
+import { IFormUser } from "@/interfaces/user";
+import { signin, signup } from "@/services/AuthService";
+import { toast } from "sonner";
+import { Link, useNavigate } from "react-router-dom";
+import ButtonComponent from "@/components/ButtonComponent";
+import { useAuth } from "@/hooks/auth";
+import instance from "@/config/instance";
+import { AxiosError } from "axios";
+const SignInPage = () => {
+	const { authUser, isLoggedIn, setAuthUser, setIsLoggedIn } = useAuth();
+	console.log("authUser", authUser);
+	console.log("isLoggedIn", isLoggedIn);
+	const [form] = Form.useForm();
+	const navigate = useNavigate();
+	const onFinish = async (values: IFormUser) => {
+		try {
+			const { data } = await signin(values);
+			console.log("data", data);
+			setAuthUser?.(data?.user);
+			setIsLoggedIn?.(true);
+			toast.success("Đăng nhập thành công");
+			instance.defaults.headers.common.Authorization = `Bearer ${data?.accessToken}`;
+		} catch (error) {
+			console.log(error);
+			if (error instanceof AxiosError) {
+				toast.error(error.response?.data?.message);
+			}
+		}
+	};
+	return (
+		<div className="min-h-screen   padding py-3">
+			<div className="flex justify-between items-center ">
+				<img
+					src={Logo} // Replace with your logo URL
+					alt="Qpay Logo"
+					className=" size-[80px]"
+				/>
+				<Link to="/auth/signup">
+					<ButtonComponent
+						title="Đăng ký"
+						type="submit"
+						className="px-[20px] py-2 text-sm rounded-lg font-medium"
+					/>
+				</Link>
+			</div>
+			<div className="bg-white/10 shadow-xl mt-10 rounded-lg w-full max-w-md px-5 md:px-12 py-8 mx-auto">
+				<div className="text-center mb-8 ">
+					<h2 className="text-2xl font-bold mb-2">Đăng nhập</h2>
+				</div>
+				<Form
+					form={form}
+					name="register"
+					onFinish={onFinish}
+					layout="vertical"
+					initialValues={{ remember: true }}
+					validateTrigger="onSubmit"
+				>
+					{/* Email */}
+					<Form.Item
+						name="email"
+						label="Email"
+						rules={[
+							{
+								type: "email",
+								message: "Email không hợp lệ!",
+							},
+							{
+								required: true,
+								message: "Vui lòng nhập email!",
+							},
+						]}
+					>
+						<Input
+							prefix={<MailOutlined />}
+							placeholder="Nhập email"
+							className="py-2"
+						/>
+					</Form.Item>
+
+					{/* Password */}
+					<Form.Item
+						name="password"
+						label="Mật khẩu"
+						rules={[
+							{
+								required: true,
+								message: "Vui lòng nhập mật khẩu!",
+							},
+							{
+								min: 6,
+								message: "Mật khẩu phải có ít nhất 6 ký tự!",
+							},
+						]}
+						hasFeedback
+					>
+						<Input.Password
+							prefix={<LockOutlined />}
+							placeholder="Nhập mật khẩu"
+							className="py-2"
+						/>
+					</Form.Item>
+
+					{/* Submit Button */}
+					<Form.Item className="w-full flex justify-center">
+						<Button type="primary" htmlType="submit" className="w-[200px] h-10">
+							Đăng nhập
+						</Button>
+					</Form.Item>
+				</Form>
+			</div>
+		</div>
+	);
+};
+
+export default SignInPage;
