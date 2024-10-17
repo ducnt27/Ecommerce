@@ -7,25 +7,31 @@ import { useMutation } from "@tanstack/react-query";
 import { IFormUser } from "@/interfaces/user";
 import { signin, signup } from "@/services/AuthService";
 import { toast } from "sonner";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import ButtonComponent from "@/components/ButtonComponent";
 import { useAuth } from "@/hooks/auth";
 import instance from "@/config/instance";
 import { AxiosError } from "axios";
 const SignInPage = () => {
-	const { authUser, isLoggedIn, setAuthUser, setIsLoggedIn } = useAuth();
-	console.log("authUser", authUser);
-	console.log("isLoggedIn", isLoggedIn);
+	const { setAuthUser, setIsLoggedIn } = useAuth();
+	const [searchParams, SetURLSearchParams] = useSearchParams();
 	const [form] = Form.useForm();
 	const navigate = useNavigate();
 	const onFinish = async (values: IFormUser) => {
 		try {
 			const { data } = await signin(values);
-			console.log("data", data);
+			const historyUrl = searchParams.get("url");
+			console.log("data signin", data);
 			setAuthUser?.(data?.user);
 			setIsLoggedIn?.(true);
 			toast.success("Đăng nhập thành công");
 			instance.defaults.headers.common.Authorization = `Bearer ${data?.accessToken}`;
+			if (historyUrl) {
+				const url = decodeURIComponent(historyUrl);
+				window.location.href = url;
+			} else {
+				navigate("/");
+			}
 		} catch (error) {
 			console.log(error);
 			if (error instanceof AxiosError) {
@@ -41,7 +47,7 @@ const SignInPage = () => {
 					alt="Qpay Logo"
 					className=" size-[80px]"
 				/>
-				<Link to="/auth/signup">
+				<Link to="/auth/register">
 					<ButtonComponent
 						title="Đăng ký"
 						type="submit"

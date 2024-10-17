@@ -18,7 +18,7 @@ const AdminLayout = () => {
 		setCollapsed(!collapsed); // Đóng/mở sidebar
 	};
 	return (
-		<Layout style={{ minHeight: "100vh" }}>
+		<Layout style={{ minHeight: "100vh" }} className="font-fontG">
 			{/* Sidebar */}
 			<Sider
 				trigger={null}

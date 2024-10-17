@@ -75,7 +75,7 @@ export const loginForm = async (req, res) => {
 
 export const registerForm = async (req, res) => {
   try {
-    const { email, password, confirmPassword, username } = req.body;
+    const { email, password, confirmPassword, full_name } = req.body;
     const { error } = registerFormValidation.validate(req.body);
     if (error) {
       return res.status(STATUS.BAD_REQUEST).json({
@@ -95,7 +95,7 @@ export const registerForm = async (req, res) => {
     }
     const hashedPassword = await bcryptjs.hash(password, 10);
     const user = await UserModel.create({
-      username,
+      full_name,
       email,
       password: hashedPassword,
       confirmPassword,

@@ -1,22 +1,18 @@
-import AuthLayout from '@/layouts/AuthLayout'
-import SignInPage from '@/pages/auth/Signin'
-import SignupPage from '@/pages/auth/Signup'
-import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import AuthLayout from "@/layouts/AuthLayout";
+import SignInPage from "@/pages/auth/Signin";
+import SignupPage from "@/pages/auth/Signup";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
 
 const AuthRouter = () => {
-  return (
-    <div>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/auth' element={<AuthLayout />}>
-            <Route path='signup' element={<SignupPage />} />
-            <Route path='signin' element={<SignInPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
-  )
-}
+	return (
+		<Routes>
+			<Route path="/" element={<AuthLayout />}>
+				<Route path="register" element={<SignupPage />} />
+				<Route path="login" element={<SignInPage />} />
+			</Route>
+		</Routes>
+	);
+};
 
-export default AuthRouter
+export default AuthRouter;

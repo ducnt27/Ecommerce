@@ -1,14 +1,13 @@
 import { Logo } from "@/common/icons";
-import { Form, Input, Button } from "antd";
-import React from "react";
-import { MailOutlined, LockOutlined, UserOutlined } from "@ant-design/icons";
+import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
+import { Button, Form, Input } from "antd";
 
-import { useMutation } from "@tanstack/react-query";
+import ButtonComponent from "@/components/ButtonComponent";
 import { IFormUser } from "@/interfaces/user";
 import { signup } from "@/services/AuthService";
+import { AxiosError } from "axios";
+import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import ButtonComponent from "@/components/ButtonComponent";
 const SignupPage = () => {
 	const [form] = Form.useForm();
 	const navigate = useNavigate();
@@ -20,33 +19,26 @@ const SignupPage = () => {
 			return Promise.reject(new Error("Mật khẩu xác nhận không khớp!"));
 		},
 	});
-	const { mutate } = useMutation({
-		mutationFn: async (user: IFormUser) => {
-			try {
-				const data = await signup(user);
-				return data;
-			} catch (error) {}
-		},
-		onSuccess: () => {
+	const onFinish = async (values: IFormUser) => {
+		try {
+			const { data } = await signup(values);
 			toast.success("Đăng kí thành công");
-		},
-		onError: (error) => {
-			toast.error("Đăng kí thất bại");
-		},
-	});
-	const onFinish = (values: IFormUser) => {
-		console.log("Received values of form:", values);
-		mutate(values);
+			navigate("/auth/login");
+		} catch (error) {
+			if (error instanceof AxiosError) {
+				toast.error(error.response?.data?.message);
+			}
+		}
 	};
 	return (
 		<div className="min-h-screen  padding py-3">
 			<div className="flex justify-between items-center ">
 				<img
 					src={Logo} // Replace with your logo URL
-					alt="Qpay Logo"
+					alt=""
 					className=" size-[80px]"
 				/>
-				<NavLink to="/auth/signin">
+				<NavLink to="/auth/login">
 					<ButtonComponent
 						title="Đăng nhập"
 						type="submit"
@@ -69,7 +61,7 @@ const SignupPage = () => {
 				>
 					{/* Username */}
 					<Form.Item
-						name="user_name"
+						name="full_name"
 						label="Tên đăng nhập"
 						rules={[
 							{

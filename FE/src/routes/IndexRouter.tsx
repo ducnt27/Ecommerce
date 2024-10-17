@@ -1,16 +1,18 @@
 import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthRouter from "./AuthRouter";
-import AdminRouter from "./AdminRouter";
-import MainLayout from "@/layouts/MainLayout";
 import MainRouter from "./MainRouter";
+import AdminRouter from "./AdminRouter";
 
 const IndexRouter = () => {
 	return (
-		<div>
-			<AuthRouter />
-			<AdminRouter />
-			<MainRouter />
-		</div>
+		<BrowserRouter>
+			<Routes>
+				<Route path="/*" element={<MainRouter />} />
+				<Route path="/auth/*" element={<AuthRouter />} />
+				<Route path="/admin/*" element={<AdminRouter />} />
+			</Routes>
+		</BrowserRouter>
 	);
 };
 

@@ -1,16 +1,15 @@
 import MainLayout from "@/layouts/MainLayout";
+import HomePage from "@/pages/clients/HomePage";
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 const MainRouter = () => {
 	return (
-		<div>
-			<BrowserRouter>
-				<Routes>
-					<Route path="/" element={<MainLayout />}></Route>
-				</Routes>
-			</BrowserRouter>
-		</div>
+		<Routes>
+			<Route path="/" element={<MainLayout />}>
+				<Route index element={<HomePage />} />
+			</Route>
+		</Routes>
 	);
 };
 

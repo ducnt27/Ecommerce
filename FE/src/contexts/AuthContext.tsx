@@ -1,3 +1,4 @@
+import LoadingComponent from "@/components/LoadingComponent";
 import { IUser } from "@/interfaces/user";
 import { currentUser } from "@/services/AuthService";
 import {
@@ -29,17 +30,23 @@ const AuthProvider = ({ children }: AuthProviderProp) => {
 	console.log("isLoggedIn context", isLoggedIn);
 	const value = { authUser, setAuthUser, isLoggedIn, setIsLoggedIn };
 	useEffect(() => {
-		async () => {
+		(async () => {
 			try {
 				const { data } = await currentUser();
+				console.log("authUser", data);
 				setAuthUser(data?.data);
 				setIsLoggedIn(true);
 			} catch (error) {
 				setAuthUser(undefined);
 				setIsLoggedIn(false);
+			} finally {
+				setIsLoading(false);
 			}
-		};
+		})();
 	}, []);
+	if (isLoading) {
+		return <LoadingComponent loading={isLoading} />;
+	}
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 export { AuthProvider, AuthContext };

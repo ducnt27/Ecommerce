@@ -1,18 +1,20 @@
 import AdminLayout from "@/layouts/AdminLayout";
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import PrivateRouter from "./PrivateRouter";
 
 const AdminRouter = () => {
 	return (
-		<div>
-			<BrowserRouter>
-				<Routes>
-					<Route path="/admin" element={<AdminLayout />}>
-						<Route />
-					</Route>
-				</Routes>
-			</BrowserRouter>
-		</div>
+		<Routes>
+			<Route
+				path="/"
+				element={
+					<PrivateRouter>
+						<AdminLayout />
+					</PrivateRouter>
+				}
+			></Route>
+		</Routes>
 	);
 };
 

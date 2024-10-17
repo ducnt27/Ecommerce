@@ -1,6 +1,6 @@
 export interface IFormUser {
 	_id: string;
-	user_name?: string;
+	full_name?: string;
 	email: string;
 	password: string;
 	confirmPassword?: string;

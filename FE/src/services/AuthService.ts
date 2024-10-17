@@ -13,3 +13,7 @@ export const currentUser = () => {
 	const uri = `/auth/currentUser`;
 	return instance.get(uri);
 };
+export const logout = () => {
+	const uri = `/auth/logout`;
+	return instance.post(uri);
+};
