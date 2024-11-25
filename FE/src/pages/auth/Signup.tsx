@@ -81,7 +81,7 @@ const SignupPage = () => {
 						<Input
 							prefix={<UserOutlined />}
 							placeholder="Nhập tên đăng nhập"
-							className="py-2"
+							className="py-[10px] text-sm md:text-base"
 						/>
 					</Form.Item>
 
@@ -103,7 +103,7 @@ const SignupPage = () => {
 						<Input
 							prefix={<MailOutlined />}
 							placeholder="Nhập email"
-							className="py-2"
+							className="py-[10px] text-sm md:text-base"
 						/>
 					</Form.Item>
 
@@ -126,7 +126,7 @@ const SignupPage = () => {
 						<Input.Password
 							prefix={<LockOutlined />}
 							placeholder="Nhập mật khẩu"
-							className="py-2"
+							className="py-[10px] text-sm md:text-base"
 						/>
 					</Form.Item>
 
@@ -151,15 +151,17 @@ const SignupPage = () => {
 						<Input.Password
 							prefix={<LockOutlined />}
 							placeholder="Xác nhận mật khẩu"
-							className="py-2"
+							className="py-[10px] text-sm md:text-base"
 						/>
 					</Form.Item>
 
 					{/* Submit Button */}
-					<Form.Item className="w-full flex justify-center">
-						<Button type="primary" htmlType="submit" className="w-[200px] h-10">
-							Đăng ký
-						</Button>
+					<Form.Item className=" w-full ">
+						<ButtonComponent
+							title="Đăng nhập"
+							type="submit"
+							className="w-full h-11 rounded-md"
+						/>
 					</Form.Item>
 				</Form>
 			</div>

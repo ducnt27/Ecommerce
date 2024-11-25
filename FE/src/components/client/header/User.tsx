@@ -44,7 +44,7 @@ const UserDropdown = () => {
 				{
 					key: "1",
 					label: <button onClick={() => handleLogout()}> Đăng xuất</button>,
-					icon: <FiLogOut className="text-red-500" />,
+					// icon: <FiLogOut className="text-red-500" />,
 				},
 			]}
 		/>

@@ -24,7 +24,7 @@ const ButtonComponent = ({
 				onClick={onClick}
 				type={type}
 			>
-				<span className="absolute w-80 h-0 transition-all duration-500 origin-center rotate-45 -translate-x-32 bg-white top-1/2 group-hover:h-64 group-hover:-translate-y-32 ease"></span>
+				<span className="absolute w-[335px] h-0 transition-all duration-500 origin-center rotate-45 -translate-x-32 bg-white top-1/2 group-hover:h-64 group-hover:-translate-y-32 ease"></span>
 				<span className="relative transition-all duration-500 group-hover:text-[#9C69E2]">
 					{title}
 				</span>

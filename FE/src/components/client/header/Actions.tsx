@@ -1,11 +1,7 @@
-import ButtonComponent from "@/components/ButtonComponent";
 import { useAuth } from "@/hooks/auth";
-import { FaOpencart } from "react-icons/fa";
-import { LuUser } from "react-icons/lu";
+import { FaOpencart, FaRegUser } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-import DropdownMenu from "./User";
 import UserDropdown from "./User";
-
 const Actions = () => {
 	const { isLoggedIn, authUser } = useAuth();
 	console.log("isLoggedIndâda", isLoggedIn);
@@ -18,11 +14,7 @@ const Actions = () => {
 				</span>
 			) : (
 				<NavLink to="/auth/login">
-					<ButtonComponent
-						title="Đăng nhập"
-						type="submit"
-						className="px-[20px] py-2 text-sm rounded-lg font-medium"
-					/>
+					<FaRegUser />
 				</NavLink>
 			)}
 			<span className="">

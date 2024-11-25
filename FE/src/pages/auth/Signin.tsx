@@ -12,6 +12,7 @@ import ButtonComponent from "@/components/ButtonComponent";
 import { useAuth } from "@/hooks/auth";
 import instance from "@/config/instance";
 import { AxiosError } from "axios";
+import SiginWithGg from "./SiginWithGg";
 const SignInPage = () => {
 	const { setAuthUser, setIsLoggedIn } = useAuth();
 	const [searchParams, SetURLSearchParams] = useSearchParams();
@@ -85,7 +86,7 @@ const SignInPage = () => {
 						<Input
 							prefix={<MailOutlined />}
 							placeholder="Nhập email"
-							className="py-2"
+							className="py-[10px] text-sm md:text-base"
 						/>
 					</Form.Item>
 
@@ -108,17 +109,26 @@ const SignInPage = () => {
 						<Input.Password
 							prefix={<LockOutlined />}
 							placeholder="Nhập mật khẩu"
-							className="py-2"
+							className="py-[10px] text-sm md:text-base"
 						/>
 					</Form.Item>
 
 					{/* Submit Button */}
-					<Form.Item className="w-full flex justify-center">
-						<Button type="primary" htmlType="submit" className="w-[200px] h-10">
+					<Form.Item className="w-full">
+						{/* <Button
+							htmlType="submit"
+							className="border rounded-ms w-full h-10 text-base font-medium text-[#333333]"
+						>
 							Đăng nhập
-						</Button>
+						</Button> */}
+						<ButtonComponent
+							title="Đăng nhập"
+							type="submit"
+							className="w-full h-10 rounded-md"
+						/>
 					</Form.Item>
 				</Form>
+				<SiginWithGg />
 			</div>
 		</div>
 	);

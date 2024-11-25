@@ -1,7 +1,0 @@
-{
-    "watch": [
-        "src"
-    ],
-    "ext": "js,json",
-    "exec": "node --experimental-modules src/server.js"
-}

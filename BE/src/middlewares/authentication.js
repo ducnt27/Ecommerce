@@ -1,10 +1,8 @@
 import UserModel from "../models/UserModel.js";
 import STATUS from "../utils/status.js";
-
+import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-
-// import dontev from "dotenv";
-// dontev.config();
+dotenv.config();
 const authentication = async (req, res, next) => {
   try {
     const token = req.headers?.authorization?.split(" ")[1];

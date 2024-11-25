@@ -44,9 +44,9 @@ const AuthProvider = ({ children }: AuthProviderProp) => {
 			}
 		})();
 	}, []);
-	if (isLoading) {
-		return <LoadingComponent loading={isLoading} />;
-	}
+	// if (isLoading) {
+	// 	return <LoadingComponent loading={isLoading} />;
+	// }
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 export { AuthProvider, AuthContext };

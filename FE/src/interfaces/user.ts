@@ -13,4 +13,6 @@ export interface IUser {
 	createdAt?: string;
 	is_admin?: boolean;
 	updatedAt?: string;
+	uid?: string;
+	provider?: string;
 }

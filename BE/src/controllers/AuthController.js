@@ -1,17 +1,14 @@
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
 import UserModel from "../models/UserModel.js";
 import STATUS from "../utils/status.js";
-import bcryptjs from "bcrypt";
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-dotenv.config();
 import {
   loginFormValidation,
   registerFormValidation,
   socialUserValidation,
 } from "../validatoins/AuthValidation.js";
-import Refreshtoken from "../models/Refreshtoken.js";
-import { get } from "mongoose";
-
+dotenv.config();
+import bcryptjs from "bcryptjs";
 export const generateAccessToken = async (payload) => {
   return jwt.sign(payload, process.env.SECRET_ACCESS_TOKEN, {
     expiresIn: "1h",
@@ -123,12 +120,12 @@ export const socialUser = async (req, res) => {
     if (existUser) {
       const accessToken = await generateAccessToken({
         id: existUser._id,
-        email: existUser._email,
+        email: existUser.email,
         is_admin: existUser.is_admin,
       });
       const refreshToken = await generateRefreshToken({
         id: existUser._id,
-        email: existUser._email,
+        email: existUser.email,
         is_admin: existUser.is_admin,
       });
       // Refresh token sẽ được lưu trong cookie của người dùng dưới dạng httpOnly để đảm bảo bảo mật, giúp giảm nguy cơ bị tấn công thông qua việc đánh cắp token.
@@ -152,12 +149,12 @@ export const socialUser = async (req, res) => {
     });
     const accessToken = await generateAccessToken({
       id: newUser._id,
-      email: newUser._email,
+      email: newUser.email,
       is_admin: newUser.is_admin,
     });
     const refreshToken = await generateRefreshToken({
       id: newUser._id,
-      email: newUser._email,
+      email: newUser.email,
       is_admin: newUser.is_admin,
     });
     return res.status(STATUS.OK).json({
@@ -267,6 +264,36 @@ export const logout = async (req, res) => {
         });
       }
     );
+  } catch (error) {
+    return res.status(STATUS.INTERNAL).json({
+      message: error.message,
+    });
+  }
+};
+export const changeProfile = async (req, res) => {
+  try {
+    const { full_name, avatarUrl, birthDay, phone } = req.body;
+    const user = req.user;
+    if (!full_name || !avatarUrl || !phone) {
+      return res.status(STATUS.BAD_REQUEST).json({
+        message: "Bạn cần nhập thông tin!",
+      });
+    }
+    if (!full_name) {
+      return res.status(STATUS.BAD_REQUEST).json({
+        message: "Tên tài khoản không được để trống!",
+      });
+    }
+    const updateProfile = await UserModel.findByIdAndUpdate(user?.id, {
+      birthDay,
+      full_name,
+      avatarUrl,
+      phone,
+    });
+    return res.status(STATUS.OK).json({
+      message: "Cập nhật thông tin thành công",
+      data: updateProfile,
+    });
   } catch (error) {
     return res.status(STATUS.INTERNAL).json({
       message: error.message,
