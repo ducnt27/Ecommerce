@@ -6,6 +6,9 @@ export default {
 			fontFamily: {
 				fontG: ["Inter", "sans-serif"],
 			},
+			screens: {
+				custom: "1024px", // Định nghĩa breakpoint tùy chỉnh
+			},
 		},
 	},
 	plugins: [],

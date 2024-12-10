@@ -1,19 +1,13 @@
 import AdminLayout from "@/layouts/AdminLayout";
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import PrivateRouter from "./PrivateRouter";
+import CategoryIndex from "@/pages/admin/category/CategoryIndex";
+import { Route, Routes } from "react-router-dom";
 
 const AdminRouter = () => {
 	return (
 		<Routes>
-			<Route
-				path="/"
-				element={
-					<PrivateRouter>
-						<AdminLayout />
-					</PrivateRouter>
-				}
-			></Route>
+			<Route path="/" element={<AdminLayout />}>
+				<Route path="product/category" element={<CategoryIndex />} />
+			</Route>
 		</Routes>
 	);
 };

@@ -11,11 +11,10 @@ export const createCategory = async (req, res) => {
         message: error.details[0].message,
       });
     }
-    const { name, thumbnail, description } = req.body;
+    const { name, thumbnail } = req.body;
     const newCategory = await CategoryModel.create({
       name,
       thumbnail,
-      description,
     });
     return res.status(STATUS.OK).json({
       message: "Tạo danh mục thành công",
@@ -36,7 +35,7 @@ export const updateCategory = async (req, res) => {
       });
     }
     const { id } = req.params;
-    const { name, description, thumbnail } = req.body;
+    const { name, thumbnail } = req.body;
     if (!id) {
       return res.status(STATUS.BAD_REQUEST).json({
         message: "Bạn chưa chọn danh mục",
@@ -53,7 +52,6 @@ export const updateCategory = async (req, res) => {
       {
         name,
         thumbnail,
-        description,
       },
       { new: true }
     );
@@ -69,16 +67,27 @@ export const updateCategory = async (req, res) => {
 };
 export const getAllCategories = async (req, res) => {
   try {
-    const { tab = 1 } = req.body;
-    const category = await CategoryModel.find({
-      deleted: tab === 1 ? false : true,
-    });
-    return res.status(STATUS.OK).json({
+    const { tab = 1, page = 1, pageSize = 10 } = req.query;
+
+    // Điều kiện query theo tab
+    const filter = {
+      deleted: tab == 1 ? false : true,
+    };
+
+    // Lấy danh mục và phân trang
+    const categories = await CategoryModel.find(filter)
+      .skip((page - 1) * pageSize)
+      .limit(Number(pageSize));
+
+    const total = await CategoryModel.countDocuments(filter);
+
+    return res.status(200).json({
       message: "Lấy danh mục thành công",
-      data: category,
+      data: categories,
+      total,
     });
   } catch (error) {
-    return res.status(STATUS.INTERNAL).json({
+    return res.status(500).json({
       message: error.message,
     });
   }

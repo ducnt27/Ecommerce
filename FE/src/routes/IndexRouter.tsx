@@ -6,13 +6,11 @@ import AdminRouter from "./AdminRouter";
 
 const IndexRouter = () => {
 	return (
-		<BrowserRouter>
-			<Routes>
-				<Route path="/*" element={<MainRouter />} />
-				<Route path="/auth/*" element={<AuthRouter />} />
-				<Route path="/admin/*" element={<AdminRouter />} />
-			</Routes>
-		</BrowserRouter>
+		<Routes>
+			<Route path="/" element={<MainRouter />} />
+			<Route path="/auth/*" element={<AuthRouter />} />
+			<Route path="/admin/*" element={<AdminRouter />} />
+		</Routes>
 	);
 };
 

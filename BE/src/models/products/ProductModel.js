@@ -6,7 +6,7 @@ const ProductSchema = new mongoose.Schema({
     required: true,
   },
   slug: {
-    typeZ: String,
+    type: String,
     unique: true,
     index: true,
   },
@@ -21,7 +21,7 @@ const ProductSchema = new mongoose.Schema({
   },
   gallery: [
     {
-      url: string,
+      url: String,
     },
   ],
   description: {
@@ -51,12 +51,6 @@ const ProductSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  attribute: [
-    {
-      type: mongoose.Types.ObjectId,
-      ref: "Attribute",
-    },
-  ],
   deleted: {
     type: Boolean,
     default: false,

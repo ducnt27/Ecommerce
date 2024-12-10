@@ -16,7 +16,7 @@ const server = createServer(app);
 console.log("url", process.env.CLIENT_URL);
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    origin: [process.env.CLIENT_URL || "http://localhost:3000"],
     credentials: true, // Cho phép gửi cookie, thông tin xác thực
     methods: "GET, POST, OPTIONS, PUT, PATCH, DELETE",
     allowedHeaders: ["X-Requested-With", "Content-Type", "Authorization"],

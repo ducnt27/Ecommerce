@@ -2,7 +2,6 @@ import Joi from "joi";
 
 export const CategoryValidate = Joi.object({
   name: Joi.string().required().messages({}),
-  description: Joi.string().required().messages({}),
   thumbnail: Joi.string().required().messages({}),
 });
 export const colorValidate = Joi.object({
@@ -28,5 +27,4 @@ export const productValidate = Joi.object({
   quantity: Joi.number(),
   countInStock: Joi.number(),
   featured: Joi.boolean(),
-  attribute: Joi.array().items(Joi.object().required().messages({})),
 });

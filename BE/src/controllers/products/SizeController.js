@@ -22,6 +22,41 @@ export const createSize = async (req, res) => {
     });
   }
 };
+export const updateSize = async (req, res) => {
+  try {
+    const { error } = sizeValidate.validate(req.body);
+    if (error) {
+      return res.status(STATUS.BAD_REQUEST).json({
+        message: error.details[0].message,
+      });
+    }
+    const { id } = req.params;
+    if (!id) {
+      return res.status(STATUS.BAD_REQUEST).json({
+        message: "Bạn chưa chọn kích thước",
+      });
+    }
+    const { name } = req.body;
+    const sizeUpdated = await SizeModel.findByIdAndUpdate(
+      id,
+      { name },
+      { new: true }
+    );
+    if (!sizeUpdated) {
+      return res.status(STATUS.BAD_REQUEST).json({
+        message: "Kích thước không tồn tại",
+      });
+    }
+    return res.status(STATUS.OK).json({
+      message: "Cập nhật kích thước thành công",
+      data: sizeUpdated,
+    });
+  } catch (error) {
+    return res.status(STATUS.INTERNAL).json({
+      message: error.message,
+    });
+  }
+};
 export const getAllSizes = async (req, res) => {
   try {
     const sizes = await SizeModel.find();
@@ -101,7 +136,7 @@ export const restoreSize = async (req, res) => {
         message: "Bạn chưa chọn kích thước",
       });
     }
-    const category = await CategoryModel.findByIdAndUpdate(
+    const category = await SizeModel.findByIdAndUpdate(
       id,
       { deleted: false },
       { new: true }
