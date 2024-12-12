@@ -1,37 +1,43 @@
-import React, { useEffect, useState } from "react";
 import {
-	Table,
-	Tabs,
+	deleteCategoryById,
+	getAll,
+	restoreCategoryById,
+} from "@/services/product/CategoryService";
+import {
 	Button,
 	message,
 	Pagination,
-	Space,
 	Popconfirm,
+	Space,
+	Table,
+	Tabs,
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { getAll, ISearchObject } from "@/services/product/CategoryService";
-import { TabsPosition } from "antd/lib/tabs";
+import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 import CategoryForm from "./CategoryForm";
+import { ISearchObject } from "@/interfaces/products";
 
 interface ICategory {
 	_id: string;
 	name: string;
-	description: string;
 	image: string;
 	actions?: string;
+	deleted?: boolean;
 }
 
 const CategoryPage: React.FC = () => {
 	const [data, setData] = useState<ICategory[]>([]); // Category data
 	const [loading, setLoading] = useState<boolean>(false); // Loading state
+	const [isOpen, setIsOpen] = useState<boolean | string>(false);
 	const [searchObject, setSearchObject] = useState<ISearchObject>({
 		page: 1,
-		pageSize: 10,
+		pageSize: 2,
 		tab: 1,
 	});
 	const [pagination, setPagination] = useState({
 		current: 1,
-		pageSize: 10,
+		pageSize: 2,
 		total: 0,
 	}); // Pagination state
 
@@ -57,7 +63,23 @@ const CategoryPage: React.FC = () => {
 
 	const handleDeleteCategory = async (id: string) => {
 		try {
-		} catch (error) {}
+			await deleteCategoryById(id);
+			setData(data.filter((cate) => cate._id !== id));
+			toast.success("Xóa danh mục thành công");
+		} catch (error) {
+			console.log(error);
+			toast.error("Xóa thất bại");
+		}
+	};
+	const handleRestoreCategory = async (id: string) => {
+		try {
+			await restoreCategoryById(id);
+			setData(data.filter((cate) => cate._id !== id));
+			toast.success("Khôi phục danh mục thành công");
+		} catch (error) {
+			console.log(error);
+			toast.error("Khôi phục thất bại");
+		}
 	};
 	// Handle pagination change
 	const handleTableChange = (paginationConfig: any) => {
@@ -81,6 +103,10 @@ const CategoryPage: React.FC = () => {
 			...prev,
 			tab: parseInt(key), // Change the tab value
 			page: 1, // Reset page to 1 when tab changes
+		}));
+		setPagination((prev) => ({
+			...prev,
+			current: 1, // Reset current page to 1 when tab changes
 		}));
 	};
 
@@ -111,18 +137,29 @@ const CategoryPage: React.FC = () => {
 		{
 			title: "Hành động",
 			key: "actions",
-			render: (_, categories: ICategory) => (
+			render: (_, category: ICategory) => (
 				<Space>
-					<Popconfirm
-						title="Xóa"
-						description="Bạn có muốn xóa sản phẩm này không?"
-						onConfirm={() => handleDeleteCategory(categories?._id)}
-						okText="Xóa"
-						cancelText="Không"
-					>
-						<Button type="primary">Xóa</Button>
-					</Popconfirm>
-					<Button onClick={() => fetchCategories(searchObject)}>Sửa</Button>
+					{category?.deleted ? (
+						<Button
+							onClick={() => handleRestoreCategory(category?._id)}
+							type="primary"
+						>
+							Khôi phục
+						</Button>
+					) : (
+						<Popconfirm
+							title="Ẩn"
+							description="Bạn có muốn xóa sản phẩm này không?"
+							onConfirm={() => handleDeleteCategory(category?._id)}
+							okText="Ẩn"
+							cancelText="Không"
+						>
+							<Button variant="solid" color="danger">
+								Ẩn
+							</Button>
+						</Popconfirm>
+					)}
+					<Button onClick={() => setIsOpen(category?._id)}>Sửa</Button>
 				</Space>
 			),
 		},
@@ -131,7 +168,9 @@ const CategoryPage: React.FC = () => {
 	return (
 		<div>
 			<div className="">
-				<CategoryForm handleCategory={() => fetchCategories(searchObject)} />
+				<Button onClick={() => setIsOpen(true)} type="primary">
+					Thêm danh mục
+				</Button>
 			</div>
 			<Tabs
 				activeKey={String(searchObject.tab)} // Set active tab based on searchObject.tab
@@ -163,16 +202,27 @@ const CategoryPage: React.FC = () => {
 				current={pagination.current}
 				pageSize={pagination.pageSize}
 				total={pagination.total}
-				onChange={(page, pageSize) =>
+				onChange={(page, pageSize) => {
 					setSearchObject((prev) => ({
 						...prev,
 						page,
 						pageSize,
-					}))
-				}
-				showSizeChanger
-				pageSizeOptions={["10", "20", "30", "50"]}
+					}));
+					setPagination((prev) => ({
+						...prev,
+						current: page,
+						pageSize,
+					}));
+				}}
+				// onChange={handleTableChange}
+				// showSizeChanger
+				// pageSizeOptions={["10", "20", "30", "50"]}
 				style={{ marginTop: 16 }}
+			/>
+			<CategoryForm
+				open={isOpen}
+				handleClose={() => setIsOpen(false)}
+				handleCategory={() => fetchCategories(searchObject)}
 			/>
 		</div>
 	);

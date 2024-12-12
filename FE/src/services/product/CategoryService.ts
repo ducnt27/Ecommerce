@@ -1,25 +1,12 @@
 import instance from "@/config/instance";
+import { ICategory, ISearchObject } from "@/interfaces/products";
 
-export interface ICategory {
-	_id: string;
-	name: string;
-	slug: string;
-	thumbnail: any;
-	description: string;
-	active: boolean;
-	deleted: boolean;
-}
-export interface ISearchObject {
-	page: number;
-	pageSize: number;
-	tab?: number;
-}
 export const addCategory = (data: ICategory) => {
 	const uri = `/category/createCategory`;
 	return instance.post(uri, data);
 };
 export const updateCategory = (id: string, data: ICategory) => {
-	const uri = `/category/updateCategory/${id}`;
+	const uri = `/category/update/${id}`;
 	return instance.put(uri, data);
 };
 export const getAll = ({ page, pageSize, tab }: ISearchObject) => {

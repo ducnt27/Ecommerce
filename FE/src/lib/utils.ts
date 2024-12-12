@@ -62,22 +62,3 @@ export const upLoadFiles = async (
 // 	}
 // };
 // export { upLoadFiles };
-
-export const uploadSingleImage = async (file: File): Promise<string | null> => {
-	try {
-		const formData = new FormData();
-		formData.append("file", file);
-		formData.append("upload_preset", process.env.PRESET_NAME || "");
-
-		const response = await axios.post(
-			`https://api.cloudinary.com/v1_1/${process.env.CLOUD_NAME}/image/upload`,
-			formData,
-		);
-
-		// Trả về URL của ảnh đã upload
-		return response.data.secure_url;
-	} catch (error) {
-		console.error("Error uploading image:", error);
-		return null;
-	}
-};

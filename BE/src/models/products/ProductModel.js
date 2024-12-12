@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { generateSlugs } from "../../middlewares/generateSlug.js";
 
 const ProductSchema = new mongoose.Schema({
   name: {
@@ -44,6 +45,7 @@ const ProductSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  size: [Number],
   countInStock: {
     type: Number,
   },
@@ -56,6 +58,10 @@ const ProductSchema = new mongoose.Schema({
     default: false,
   },
 });
-
+ProductSchema.pre("save", async function (next) {
+  const slug = generateSlugs(this.name);
+  this.slug = slug;
+  next();
+});
 const ProductModel = mongoose.model("Product", ProductSchema);
 export default ProductModel;

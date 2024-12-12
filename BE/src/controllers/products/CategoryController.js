@@ -81,13 +81,13 @@ export const getAllCategories = async (req, res) => {
 
     const total = await CategoryModel.countDocuments(filter);
 
-    return res.status(200).json({
+    return res.status(STATUS.OK).json({
       message: "Lấy danh mục thành công",
       data: categories,
       total,
     });
   } catch (error) {
-    return res.status(500).json({
+    return res.status(STATUS.INTERNAL).json({
       message: error.message,
     });
   }

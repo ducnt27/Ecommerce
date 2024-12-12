@@ -15,34 +15,33 @@ import { cn } from "@/lib/utils";
 import { useMediaQuery } from "usehooks-ts";
 import { useOpenSidebar } from "@/store/useSidebarAdmin";
 const { Header, Sider, Content } = Layout;
-
-type MenuItem = Required<MenuProps>["items"][number];
+import { items } from "@/config/sidebarAdmin";
 
 // Menu items
-const items: MenuItem[] = [
-	{ key: "/", icon: <PieChartOutlined />, label: "Trang chủ" },
-	{ key: "/dashboard", icon: <DesktopOutlined />, label: "Dashboard" },
-	{ key: "/settings", icon: <ContainerOutlined />, label: "Cài đặt" },
-	{
-		key: "sub1",
-		label: "Sản phẩm",
-		icon: <MailOutlined />,
-		children: [
-			{ key: "/admin/product/category", label: "Danh mục" },
-			{ key: "/admin/product", label: "Sản phẩm" },
-			{ key: "/admin/product/add", label: "Thêm sản phẩm" },
-		],
-	},
-	{
-		key: "sub2",
-		label: "Navigation Two",
-		icon: <AppstoreOutlined />,
-		children: [
-			{ key: "/option9", label: "Option 9" },
-			{ key: "/option10", label: "Option 10" },
-		],
-	},
-];
+// const items: MenuItem[] = [
+// 	{ key: "/", icon: <PieChartOutlined />, label: "Trang chủ" },
+// 	{ key: "/dashboard", icon: <DesktopOutlined />, label: "Dashboard" },
+// 	{ key: "/settings", icon: <ContainerOutlined />, label: "Cài đặt" },
+// 	{
+// 		key: "sub1",
+// 		label: "Sản phẩm",
+// 		icon: <MailOutlined />,
+// 		children: [
+// 			{ key: "/admin/product/category", label: "Danh mục" },
+// 			{ key: "/admin/product", label: "Sản phẩm" },
+// 			{ key: "/admin/product/add", label: "Thêm sản phẩm" },
+// 		],
+// 	},
+// 	{
+// 		key: "sub2",
+// 		label: "Navigation Two",
+// 		icon: <AppstoreOutlined />,
+// 		children: [
+// 			{ key: "/option9", label: "Option 9" },
+// 			{ key: "/option10", label: "Option 10" },
+// 		],
+// 	},
+// ];
 
 const AdminLayout: React.FC = () => {
 	const [isCollapsed, setIsCollapsed] = useState(false); // Sidebar trạng thái mở/đóng
@@ -117,7 +116,7 @@ const AdminLayout: React.FC = () => {
 				</Drawer>
 
 				{/* Content */}
-				<Content className="bg-white m-4 lg:m-6 p-4 ">
+				<Content className="bg-white p-4 lg:p-8 ">
 					<Outlet />
 				</Content>
 			</Layout>
