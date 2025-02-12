@@ -10,5 +10,5 @@ const sizeSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-const SizeModel = mongoose.model("Size", sizeSchema);
+const SizeModel = mongoose.model("Sizes", sizeSchema);
 export default SizeModel;

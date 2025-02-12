@@ -2,17 +2,21 @@ import mongoose from "mongoose";
 
 const attributeSchema = new mongoose.Schema(
   {
-    color: {
+    colorId: {
       type: mongoose.Types.ObjectId,
-      ref: "Color",
+      ref: "Colors",
       required: true,
     },
-    size: {
+    sizeId: {
       type: mongoose.Types.ObjectId,
-      ref: "Size",
-      required: "true",
+      ref: "Sizes",
+      required: true,
     },
     price: {
+      type: Number,
+      required: true,
+    },
+    discount: {
       type: Number,
       required: true,
     },
@@ -27,5 +31,5 @@ const attributeSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-const AttributeModel = mongoose.model("Attribute", attributeSchema);
+const AttributeModel = mongoose.model("Attributes", attributeSchema);
 export default AttributeModel;

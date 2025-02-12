@@ -1,10 +1,9 @@
 import { useAuth } from "@/hooks/auth";
 import { FaOpencart, FaRegUser } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import UserDropdown from "./User";
 const Actions = () => {
 	const { isLoggedIn, authUser } = useAuth();
-	console.log("isLoggedIndâda", isLoggedIn);
 	return (
 		<div className="flex items-center space-x-4">
 			{isLoggedIn && authUser?._id ? (
@@ -17,9 +16,11 @@ const Actions = () => {
 					<FaRegUser />
 				</NavLink>
 			)}
-			<span className="">
-				<FaOpencart size={18} />
-			</span>
+			<Link to={`/cart`}>
+				<span className="">
+					<FaOpencart size={18} />
+				</span>
+			</Link>
 		</div>
 	);
 };

@@ -11,7 +11,7 @@ export const createSize = async (req, res) => {
       });
     }
     const { name } = req.body;
-    const size = await SizeModel.create(name);
+    const size = await SizeModel.create({ name });
     return res.status(STATUS.OK).json({
       message: "Tạo kích thước thành công",
       data: size,
@@ -57,9 +57,33 @@ export const updateSize = async (req, res) => {
     });
   }
 };
+export const pagingSize = async (req, res) => {
+  try {
+    const { tab = 1, pageIndex = 1, pageSiZe = 10 } = req.query;
+    const filter = {
+      deleted: tab == 1 ? false : true,
+    };
+    const sizes = await SizeModel.find(filter)
+      .skip((pageIndex - 1) * pageSiZe)
+      .limit(Number(pageSiZe));
+    const total = await SizeModel.countDocuments(filter);
+    return res.status(STATUS.OK).json({
+      message: "Lấy danh sách kích cỡ thành công",
+      data: sizes,
+      total,
+    });
+  } catch (error) {
+    return res.status(STATUS.INTERNAL).json({
+      message: error.message,
+    });
+  }
+};
 export const getAllSizes = async (req, res) => {
   try {
-    const sizes = await SizeModel.find();
+    const sizes = await SizeModel.find({ deleted: false });
+    // console.log("sizes", sizes);
+    const sortSizes = sizes.sort((a, b) => parseInt(a.name) - parseInt(b.name));
+    // console.log("Sizes: ", sortSizes);
     if (!sizes) {
       return res.status(STATUS.BAD_REQUEST).json({
         message: "Không có kích thước",
@@ -67,7 +91,7 @@ export const getAllSizes = async (req, res) => {
     }
     return res.status(STATUS.OK).json({
       message: "Lấy danh sách kích thước thành công",
-      data: sizes,
+      data: sortSizes,
     });
   } catch (error) {
     return res.status(STATUS.INTERNAL).json({

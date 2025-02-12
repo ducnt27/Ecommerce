@@ -9,9 +9,10 @@ import {
 } from "../validatoins/AuthValidation.js";
 dotenv.config();
 import bcryptjs from "bcryptjs";
+import CartModel from "../models/cart/Cart.js";
 export const generateAccessToken = async (payload) => {
   return jwt.sign(payload, process.env.SECRET_ACCESS_TOKEN, {
-    expiresIn: "1h",
+    expiresIn: "1d",
   });
 };
 export const generateRefreshToken = async (payload) => {
@@ -96,6 +97,9 @@ export const registerForm = async (req, res) => {
       email,
       password: hashedPassword,
       confirmPassword,
+    });
+    await CartModel.create({
+      user: user?._id,
     });
     return res.status(STATUS.OK).json({
       message: "Đăng ký thành công",
@@ -218,7 +222,7 @@ export const refreshToken = async (req, res) => {
 export const currentUser = async (req, res) => {
   try {
     const user = req.user;
-    console.log("user", user);
+    // console.log("user", user);
     const existUser = await UserModel.findById(user?.id).select("-password");
     if (!existUser) {
       return res.status(STATUS.AUTHENTICATOR).json({

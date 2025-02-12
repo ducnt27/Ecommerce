@@ -14,7 +14,6 @@ const CategorySchema = new mongoose.Schema(
     },
     thumbnail: {
       type: String,
-      required: true,
     },
     deleted: {
       type: Boolean,

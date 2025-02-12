@@ -1,0 +1,146 @@
+/* Đảm bảo Sidebar không thay đổi kích thước */
+.ant-layout-sider {
+	flex: 0 0 280px; /* Đặt chiều rộng cố định */
+	max-width: 280px;
+	min-width: 280px;
+	width: 280px;
+}
+
+/* Content xử lý overflow */
+.ant-layout-content {
+	overflow: auto; /* Cho phép cuộn nội dung */
+	max-width: 100%; /* Đảm bảo không phình ra ngoài */
+	height: calc(100vh - 64px); /* Trừ đi chiều cao của Header */
+}
+
+/* #root {
+	margin: 1rem 4rem;
+} */
+
+#root .ql-container {
+	border-bottom-left-radius: 0.5em;
+	border-bottom-right-radius: 0.5em;
+	background: #fefcfc;
+}
+
+/* Snow Theme */
+#root .ql-snow.ql-toolbar {
+	display: block;
+	background: #eaecec;
+	border-top-left-radius: 0.5em;
+	border-top-right-radius: 0.5em;
+}
+
+#root .ql-editor {
+	min-height: 18em;
+}
+.editor-container {
+	height: 400px; /* Chiều cao cố định */
+	max-height: 500px; /* Đảm bảo không vượt quá chiều cao này */
+	overflow-y: auto; /* Hiển thị thanh cuộn nếu nội dung dài */
+	border: 1px solid #d9d9d9; /* Đường viền */
+	border-radius: 4px; /* Bo góc */
+	padding: 10px; /* Khoảng cách bên trong */
+	background-color: #fff; /* Màu nền */
+	width: 100%; /* Chiếm toàn bộ chiều rộng của container cha */
+	max-width: 100%; /* Giới hạn chiều rộng */
+	margin: 0 auto; /* Căn giữa nếu cần */
+}
+/* quill */
+
+/* scroll */
+.scroll-area {
+	max-height: 200px;
+	overflow-y: auto;
+	padding-right: 10px;
+	scrollbar-width: thin; /* Firefox */
+}
+
+.scroll-area::-webkit-scrollbar {
+	width: 8px;
+}
+
+.scroll-area::-webkit-scrollbar-thumb {
+	background-color: #888;
+	border-radius: 4px;
+}
+
+.scroll-area::-webkit-scrollbar-thumb:hover {
+	background-color: #555;
+}
+
+/* color checkbox */
+/* Tùy chỉnh Checkbox khi không được chọn */
+.custom-checkbox .ant-checkbox-inner {
+	border: none !important; /* Ẩn border */
+	background-color: transparent !important; /* Nền trong suốt */
+	width: 36px !important; /* Điều chỉnh kích thước */
+	height: 36px !important; /* Điều chỉnh kích thước */
+	border-radius: 180% !important; /* Làm tròn */
+}
+
+/* Tùy chỉnh Checkbox khi được chọn */
+.custom-checkbox .ant-checkbox-checked .ant-checkbox-inner {
+	border: none !important; /* Ẩn border */
+	background-color: transparent !important; /* Nền trong suốt */
+}
+
+/* Màu mặc định của icon dấu tích */
+.custom-checkbox .ant-checkbox-checked .ant-checkbox-inner::after {
+	/*  */
+	width: 10px !important; /* Chiều rộng dấu tích */
+	height: 16px !important; /* Chiều cao dấu tích */
+	top: 40% !important; /* Căn giữa theo chiều dọc */
+	left: 50% !important; /* Căn giữa theo chiều ngang */
+	transform: translate(-50%, -50%) rotate(45deg) !important; /* Căn giữa và xoay dấu tích */
+}
+
+/* Màu đen cho icon dấu tích khi có lớp tick-black */
+.custom-checkbox.tick-black .ant-checkbox-checked .ant-checkbox-inner::after {
+	border-color: #000000 !important; /* Màu đen */
+}
+
+/* size checkbox */
+.custom-checkbox .ant-checkbox-inner {
+	border: none !important; /* Ẩn border */
+	background-color: transparent !important; /* Nền trong suốt */
+	width: 36px !important; /* Điều chỉnh kích thước */
+	height: 36px !important; /* Điều chỉnh kích thước */
+	border-radius: 180% !important; /* Làm tròn */
+}
+
+/* Tùy chỉnh Checkbox khi được chọn */
+.custom-checkbox .ant-checkbox-checked .ant-checkbox-inner {
+	border: none !important; /* Ẩn border */
+	background-color: transparent !important; /* Nền trong suốt */
+}
+
+/* Màu mặc định của icon dấu tích */
+.custom-checkbox .ant-checkbox-checked .ant-checkbox-inner::after {
+	/*  */
+	width: 10px !important; /* Chiều rộng dấu tích */
+	height: 16px !important; /* Chiều cao dấu tích */
+	top: 40% !important; /* Căn giữa theo chiều dọc */
+	left: 50% !important; /* Căn giữa theo chiều ngang */
+	transform: translate(-50%, -50%) rotate(45deg) !important; /* Căn giữa và xoay dấu tích */
+}
+
+/* Màu đen cho icon dấu tích khi có lớp tick-black */
+.custom-checkbox.tick-black .ant-checkbox-checked .ant-checkbox-inner::after {
+	border-color: #000000 !important; /* Màu đen */
+}
+/* .custom-checkbox-1.checked {
+	border-color: red !important; 
+} */
+/* .custom-checkbox-1 .ant-checkbox {
+	display: none !important;
+} */
+
+.selection-box-tick::before {
+	border: 38px solid transparent;
+	border-bottom: 23px solid #ff5b2c;
+	bottom: 0;
+	content: "";
+	position: absolute;
+	right: -44px;
+}

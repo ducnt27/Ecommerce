@@ -16,7 +16,7 @@ import type { ColumnsType } from "antd/es/table";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import CategoryForm from "./CategoryForm";
-import { ISearchObject } from "@/interfaces/products";
+import { ISearchObject } from "@/interfaces/searchObject";
 
 interface ICategory {
 	_id: string;
@@ -32,12 +32,12 @@ const CategoryPage: React.FC = () => {
 	const [isOpen, setIsOpen] = useState<boolean | string>(false);
 	const [searchObject, setSearchObject] = useState<ISearchObject>({
 		page: 1,
-		pageSize: 2,
+		pageSize: 5,
 		tab: 1,
 	});
 	const [pagination, setPagination] = useState({
 		current: 1,
-		pageSize: 2,
+		pageSize: 5,
 		total: 0,
 	}); // Pagination state
 
@@ -65,10 +65,10 @@ const CategoryPage: React.FC = () => {
 		try {
 			await deleteCategoryById(id);
 			setData(data.filter((cate) => cate._id !== id));
-			toast.success("Xóa danh mục thành công");
+			toast.success("Ẩn danh mục thành công");
 		} catch (error) {
 			console.log(error);
-			toast.error("Xóa thất bại");
+			toast.error("Ẩn thất bại");
 		}
 	};
 	const handleRestoreCategory = async (id: string) => {
@@ -127,11 +127,13 @@ const CategoryPage: React.FC = () => {
 			title: "Ảnh",
 			dataIndex: "thumbnail",
 			render: (thumbnail) => (
-				<img
-					src={thumbnail}
-					alt="category"
-					className="w-[100px] h-[100px]  object-contain"
-				/>
+				<div className="w-[100px] h-[70px]">
+					<img
+						src={thumbnail}
+						alt="category"
+						className="w-full h-full  object-cover"
+					/>
+				</div>
 			),
 		},
 		{
@@ -149,7 +151,7 @@ const CategoryPage: React.FC = () => {
 					) : (
 						<Popconfirm
 							title="Ẩn"
-							description="Bạn có muốn xóa sản phẩm này không?"
+							description="Bạn có muốn ẩn danh mục  này không?"
 							onConfirm={() => handleDeleteCategory(category?._id)}
 							okText="Ẩn"
 							cancelText="Không"

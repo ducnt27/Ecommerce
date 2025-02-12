@@ -11,5 +11,5 @@ const colorSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-const ColorModel = mongoose.model("ColorModel", colorSchema);
+const ColorModel = mongoose.model("Colors", colorSchema);
 export default ColorModel;

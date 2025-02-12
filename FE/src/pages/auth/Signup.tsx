@@ -22,6 +22,7 @@ const SignupPage = () => {
 	const onFinish = async (values: IFormUser) => {
 		try {
 			const { data } = await signup(values);
+			sessionStorage.setItem("registeredEmail", values?.email);
 			toast.success("Đăng kí thành công");
 			navigate("/auth/login");
 		} catch (error) {
@@ -158,7 +159,7 @@ const SignupPage = () => {
 					{/* Submit Button */}
 					<Form.Item className=" w-full ">
 						<ButtonComponent
-							title="Đăng nhập"
+							title="Đăng ký"
 							type="submit"
 							className="w-full h-11 rounded-md"
 						/>

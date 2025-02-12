@@ -7,7 +7,7 @@ import AdminRouter from "./AdminRouter";
 const IndexRouter = () => {
 	return (
 		<Routes>
-			<Route path="/" element={<MainRouter />} />
+			<Route path="/*" element={<MainRouter />} />
 			<Route path="/auth/*" element={<AuthRouter />} />
 			<Route path="/admin/*" element={<AdminRouter />} />
 		</Routes>

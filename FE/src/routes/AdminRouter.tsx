@@ -1,4 +1,7 @@
 import AdminLayout from "@/layouts/AdminLayout";
+import ColorIndex from "@/pages/admin/attributes/ColorIndex";
+import SizeIndex from "@/pages/admin/attributes/SizeIndex";
+import BrandIndex from "@/pages/admin/brand/BrandIndex";
 import CategoryIndex from "@/pages/admin/category/CategoryIndex";
 import ProductAdd from "@/pages/admin/products/ProductAdd";
 import ProductIndex from "@/pages/admin/products/ProductIndex";
@@ -9,10 +12,13 @@ const AdminRouter = () => {
 	return (
 		<Routes>
 			<Route path="/" element={<AdminLayout />}>
-				<Route path="product" element={<ProductIndex />} />
-				<Route path="product/add" element={<ProductAdd />} />
-				<Route path="product/update/:id" element={<ProductUpdate />} />
-				<Route path="product/category" element={<CategoryIndex />} />
+				<Route path="products" element={<ProductIndex />} />
+				<Route path="products/add" element={<ProductAdd />} />
+				<Route path="products/update/:id" element={<ProductUpdate />} />
+				<Route path="category" element={<CategoryIndex />} />
+				<Route path="brand" element={<BrandIndex />} />
+				<Route path="attributes/color" element={<ColorIndex />} />
+				<Route path="attributes/size" element={<SizeIndex />} />
 			</Route>
 		</Routes>
 	);

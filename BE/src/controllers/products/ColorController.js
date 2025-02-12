@@ -1,22 +1,22 @@
 import ColorModel from "../../models/products/ColorModel.js";
 import { colorValidate } from "../../validatoins/ProductValidation.js";
-
+import STATUS from "../../utils/status.js";
 export const createColor = async (req, res) => {
   try {
     const { error } = colorValidate.validate(req.body);
     if (error) {
-      return res.status(400).json({
+      return res.status(STATUS.BAD_REQUEST).json({
         message: error.details[0].message,
       });
     }
     const { name, code } = req.body;
     const color = await ColorModel.create({ name, code });
-    return res.status(201).json({
+    return res.status(STATUS.OK).json({
       message: "Thêm màu sắc thành công",
       data: color,
     });
   } catch (error) {
-    return res.status(500).json({
+    return res.status(STATUS.INTERNAL).json({
       message: error.message,
     });
   }
@@ -48,7 +48,28 @@ export const updateColor = async (req, res) => {
     }
     return res.status(STATUS.OK).json({
       message: "Cập nhật màu sắc thành công",
-      data: sizeUpdated,
+      data: colorUpdated,
+    });
+  } catch (error) {
+    return res.status(STATUS.INTERNAL).json({
+      message: error.message,
+    });
+  }
+};
+export const pagingColor = async (req, res) => {
+  try {
+    const { tab = 1, pageIndex = 1, pageSiZe = 10 } = req.query;
+    const filter = {
+      deleted: tab == 1 ? false : true,
+    };
+    const colors = await ColorModel.find(filter)
+      .skip((pageIndex - 1) * pageSiZe)
+      .limit(Number(pageSiZe));
+    const total = await ColorModel.countDocuments(filter);
+    return res.status(STATUS.OK).json({
+      message: "Lấy danh sách màu sắc thành công",
+      data: colors,
+      total,
     });
   } catch (error) {
     return res.status(STATUS.INTERNAL).json({

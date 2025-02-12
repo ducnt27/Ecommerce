@@ -21,5 +21,5 @@ export const useCurrentRouteAndNavigation = () => {
 		const currentRouter = location.pathname; //cung cấp đường dẫn hiện tại (current route) của người dùng.
 		navigate(`/auth/login?routerHistory=${currentRouter}`);
 	};
-	return handleCurrentRoute();
+	return handleCurrentRoute;
 };

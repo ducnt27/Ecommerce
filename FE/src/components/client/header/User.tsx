@@ -11,7 +11,6 @@ import { logout } from "@/services/AuthService";
 
 const UserDropdown = () => {
 	const { authUser, setAuthUser, setIsLoggedIn } = useAuth();
-	console.log("authUseadadadr", authUser);
 	// Menu items
 	const handleLogout = async () => {
 		try {

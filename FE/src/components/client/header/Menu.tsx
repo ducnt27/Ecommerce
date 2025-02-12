@@ -4,12 +4,9 @@ import { NavLink } from "react-router-dom";
 const Menu = () => {
 	const menuItems = [
 		{ label: "Trang chủ", path: "/" },
-		{ label: "Tops", path: "/tops" },
-		{ label: "Bottoms", path: "/bottoms" },
-		{ label: "Kids", path: "/kids" },
-		{ label: "Accessories", path: "/accessories" },
-		{ label: "Collections", path: "/collections" },
-		{ label: "Sale", path: "/sale" },
+		{ label: "Sản phẩm", path: "/shop" },
+		{ label: "Bài viết", path: "/blog" },
+		{ label: "Liên hệ", path: "/contact" },
 	];
 	return (
 		<div className="">

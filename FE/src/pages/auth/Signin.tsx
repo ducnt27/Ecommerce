@@ -1,6 +1,6 @@
 import { Logo } from "@/common/icons";
 import { Form, Input, Button } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import { MailOutlined, LockOutlined, UserOutlined } from "@ant-design/icons";
 
 import { useMutation } from "@tanstack/react-query";
@@ -14,10 +14,18 @@ import instance from "@/config/instance";
 import { AxiosError } from "axios";
 import SiginWithGg from "./SiginWithGg";
 const SignInPage = () => {
-	const { setAuthUser, setIsLoggedIn } = useAuth();
-	const [searchParams, SetURLSearchParams] = useSearchParams();
+	const { isLoggedIn, setAuthUser, setIsLoggedIn } = useAuth();
+	console.log("isLoggedIn", isLoggedIn);
+	const [searchParams, _] = useSearchParams();
 	const [form] = Form.useForm();
 	const navigate = useNavigate();
+	useEffect(() => {
+		const registeredEmail = sessionStorage.getItem("registeredEmail");
+		if (registeredEmail) {
+			form.setFieldsValue({ email: registeredEmail });
+			sessionStorage.removeItem("registeredEmail");
+		}
+	}, [form]);
 	const onFinish = async (values: IFormUser) => {
 		try {
 			const { data } = await signin(values);
@@ -43,11 +51,14 @@ const SignInPage = () => {
 	return (
 		<div className="min-h-screen   padding py-3">
 			<div className="flex justify-between items-center ">
-				<img
-					src={Logo} // Replace with your logo URL
-					alt="Qpay Logo"
-					className=" size-[80px]"
-				/>
+				<Link to={`/`}>
+					{" "}
+					<img
+						src={Logo} // Replace with your logo URL
+						alt="Qpay Logo"
+						className=" size-[80px]"
+					/>
+				</Link>
 				<Link to="/auth/register">
 					<ButtonComponent
 						title="Đăng ký"

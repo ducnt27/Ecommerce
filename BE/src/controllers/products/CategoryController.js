@@ -65,6 +65,24 @@ export const updateCategory = async (req, res) => {
     });
   }
 };
+export const getAll = async (req, res) => {
+  try {
+    const category = await CategoryModel.find({ deleted: false });
+    if (!category) {
+      return res.status(STATUS.BAD_REQUEST).json({
+        message: "Không có danh mục",
+      });
+    }
+    return res.status(STATUS.OK).json({
+      message: "Lấy danh sách danh mục thành công",
+      data: category,
+    });
+  } catch (error) {
+    return res.status(STATUS.INTERNAL).json({
+      message: error.message,
+    });
+  }
+};
 export const getAllCategories = async (req, res) => {
   try {
     const { tab = 1, page = 1, pageSize = 10 } = req.query;

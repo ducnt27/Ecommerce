@@ -1,15 +1,11 @@
-import IndexRouter from './routes/IndexRouter'
+import IndexRouter from "./routes/IndexRouter";
 
 function App() {
-  return (
-    <>
-      {/* <h3 className='text-red-500'>hello world</h3>
-      <Button className='text-white ' type='primary'>
-        Button
-      </Button> */}
-      <IndexRouter />
-    </>
-  )
+	return (
+		<>
+			<IndexRouter />
+		</>
+	);
 }
 
-export default App
+export default App;

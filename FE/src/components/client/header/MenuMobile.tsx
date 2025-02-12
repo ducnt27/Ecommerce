@@ -1,30 +1,25 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const MenuMobile = () => {
+	const menuItems = [
+		{ label: "Trang chủ", path: "/" },
+		{ label: "Sản phẩm", path: "/shop" },
+		{ label: "Bài viết", path: "/blog" },
+		{ label: "Liên hệ", path: "/contact" },
+	];
 	return (
 		<div>
 			<nav className="flex flex-col space-y-6 p-6">
-				<a href="#" className="text-lg font-medium">
-					New
-				</a>
-				<a href="#" className="text-lg font-medium">
-					Tops
-				</a>
-				<a href="#" className="text-lg font-medium">
-					Bottoms
-				</a>
-				<a href="#" className="text-lg font-medium">
-					Kids
-				</a>
-				<a href="#" className="text-lg font-medium">
-					Accessories
-				</a>
-				<a href="#" className="text-lg font-medium">
-					Collections
-				</a>
-				<a href="#" className="text-lg font-medium">
-					Sale
-				</a>
+				{menuItems?.map((item) => (
+					<NavLink
+						key={item.path}
+						to={item.path}
+						className="text-lg font-medium"
+					>
+						{item.label}{" "}
+					</NavLink>
+				))}
 			</nav>
 		</div>
 	);

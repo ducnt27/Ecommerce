@@ -62,11 +62,11 @@ const AdminLayout: React.FC = () => {
 	// });
 	console.log("open", isOpen);
 	return (
-		<div className="flex  min-h-[100vh]">
+		<div className="flex  min-h-[100vh]	">
 			<div
 				className={cn(
 					window.innerWidth < 1024 ? "hidden" : "block",
-					"w-[280px]",
+					"max-w-[280px] w-full",
 				)}
 			>
 				<div className="h-16">Nguyễn Tuấn Đức</div>
@@ -116,7 +116,7 @@ const AdminLayout: React.FC = () => {
 				</Drawer>
 
 				{/* Content */}
-				<Content className="bg-white p-4 lg:p-8 ">
+				<Content className="bg-white p-4 lg:p-5 max-w-[100%] overflow-auto h-[calc(100vh-64px)]">
 					<Outlet />
 				</Content>
 			</Layout>

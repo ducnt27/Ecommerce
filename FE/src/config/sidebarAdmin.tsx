@@ -16,9 +16,19 @@ export const items: MenuItem[] = [
 		label: "Sản phẩm",
 		icon: <MailOutlined />,
 		children: [
-			{ key: "/admin/product/category", label: "Danh mục" },
-			{ key: "/admin/product", label: "Sản phẩm" },
-			{ key: "/admin/product/add", label: "Thêm sản phẩm" },
+			{ key: "/admin/category", label: "Danh mục" },
+			{ key: "/admin/brand", label: "Thương hiệu" },
+			{ key: "/admin/products", label: "Sản phẩm" },
+			{ key: "/admin/products/add", label: "Thêm sản phẩm" },
+		],
+	},
+	{
+		key: "su2",
+		label: "Biến thể",
+		icon: <MailOutlined />,
+		children: [
+			{ key: "/admin/attributes/color", label: "Màu sắc" },
+			{ key: "/admin/attributes/size", label: "Kích thước" },
 		],
 	},
 	{

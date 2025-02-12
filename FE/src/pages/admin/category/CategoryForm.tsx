@@ -19,13 +19,8 @@ type Props = {
 const CategoryForm = ({ open, handleClose, handleCategory }: Props) => {
 	const [category, setCategory] = useState<ICategory | null>();
 	const [loading, setLoading] = useState(false);
-	const { id } = useParams();
-	console.log("id", open);
 	const [form] = Form.useForm();
-	const [imageUrl, setImageUrl] = useState("");
-	// const showModal = () => {
-	// 	setOpen(true);
-	// };
+	// const [imageUrl, setImageUrl] = useState("");
 	useEffect(() => {
 		if (typeof open === "string") {
 			(async () => {
@@ -34,19 +29,19 @@ const CategoryForm = ({ open, handleClose, handleCategory }: Props) => {
 					// Chuyển đổi dữ liệu thumbnail sang định dạng phù hợp cho Upload
 					const formattedData = {
 						name: data.name,
-						thumbnail: data.thumbnail
-							? [
-									{
-										uid: "-1", // ID tạm thời
-										name: "Uploaded Image", // Tên hiển thị
-										status: "done", // Trạng thái của ảnh
-										url: data.thumbnail, // URL của ảnh từ API
-									},
-								]
-							: [],
+						// thumbnail: data.thumbnail
+						// 	? [
+						// 			{
+						// 				uid: "-1", // ID tạm thời
+						// 				name: "Uploaded Image", // Tên hiển thị
+						// 				status: "done", // Trạng thái của ảnh
+						// 				url: data.thumbnail, // URL của ảnh từ API
+						// 			},
+						// 		]
+						// 	: [],
 					};
 					setCategory(data);
-					setImageUrl(data?.thumbnail);
+					// setImageUrl(data?.thumbnail);
 					form.setFieldsValue(formattedData);
 				} catch (error) {
 					console.log(error);
@@ -54,32 +49,28 @@ const CategoryForm = ({ open, handleClose, handleCategory }: Props) => {
 			})();
 		} else {
 			setCategory(null);
-			setImageUrl("");
+			// setImageUrl("");
 		}
 	}, [open]);
-	console.log("category", category);
-	// const handleOk = () => {
-	// 	setTimeout(() => {
-	// 		setLoading(false);
-	// 		// setOpen(false);
-	// 	}, 2000);
+
+	// const handleChangeImg = (img: string) => {
+	// 	setImageUrl(img);
 	// };
-	const handleChangeImg = (img: string) => {
-		setImageUrl(img);
-	};
 	const handleSubmit = async (values: ICategory) => {
 		setLoading(true);
-		console.log("thumbnail", values.thumbnail);
+		console.log("values", values);
 		try {
-			const image = await upLoadFiles(values.thumbnail[0].originFileObj);
+			// const image = await upLoadFiles(values.thumbnail[0].originFileObj);
 			if (category) {
-				await updateCategory(open as string, { ...values, thumbnail: image });
+				// await updateCategory(open as string, { ...values, thumbnail: image });
+				await updateCategory(open as string, values);
 				toast.success("Cập nhật danh mục thành công");
 				handleCategory();
 				handleClose();
 				return;
 			}
-			await addCategory({ ...values, thumbnail: image });
+			// await addCategory({ ...values, thumbnail: image });
+			await addCategory(values);
 			form.resetFields();
 			handleClose();
 			handleCategory();
@@ -120,13 +111,12 @@ const CategoryForm = ({ open, handleClose, handleCategory }: Props) => {
 					</Form.Item>
 
 					{/* Ảnh */}
-					<Form.Item
+					{/* <Form.Item
 						label="Ảnh danh mục"
 						name="thumbnail"
 						onMetaChange={() => handleChangeImg}
 						valuePropName="fileList"
 						getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
-						rules={[{ required: true, message: "Vui lòng tải lên ảnh!" }]}
 					>
 						<Upload
 							name="thumbnail"
@@ -150,7 +140,7 @@ const CategoryForm = ({ open, handleClose, handleCategory }: Props) => {
 								{typeof open === "string" ? "Thay đổi ảnh" : "Tải ảnh lên"}
 							</Button>
 						</Upload>
-					</Form.Item>
+					</Form.Item> */}
 
 					{/* Mô tả */}
 

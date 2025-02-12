@@ -26,14 +26,14 @@ const AuthProvider = ({ children }: AuthProviderProp) => {
 	const [authUser, setAuthUser] = useState<IUser | undefined>(undefined);
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
-	console.log("authUser context", authUser);
-	console.log("isLoggedIn context", isLoggedIn);
+	// console.log("authUser context", authUser);
+	// console.log("isLoggedIn context", isLoggedIn);
 	const value = { authUser, setAuthUser, isLoggedIn, setIsLoggedIn };
 	useEffect(() => {
 		(async () => {
 			try {
 				const { data } = await currentUser();
-				console.log("authUser", data);
+				// console.log("authUser", data);
 				setAuthUser(data?.data);
 				setIsLoggedIn(true);
 			} catch (error) {

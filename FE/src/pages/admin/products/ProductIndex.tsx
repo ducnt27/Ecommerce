@@ -1,9 +1,15 @@
 import { IProduct, ISearchObject } from "@/interfaces/products";
-import { pagingProduct } from "@/services/product/ProductService";
-import { Button, Popconfirm, Space, Tabs } from "antd";
+import { cn } from "@/lib/utils";
+import {
+	deleteProduct,
+	pagingProduct,
+	restoreProduct,
+} from "@/services/product/ProductService";
+import { Button, Pagination, Popconfirm, Space, Tabs } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { Table } from "antd/lib";
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const ProductIndex = () => {
 	const [products, setProducts] = useState<IProduct[]>([]);
@@ -30,6 +36,24 @@ const ProductIndex = () => {
 	useEffect(() => {
 		handleProducts(searchObject);
 	}, [searchObject]);
+	const handleDeleteById = async (id: string) => {
+		try {
+			await deleteProduct(id);
+			setProducts(products.filter((product) => product._id !== id));
+			toast.success("Xóa sản phẩm thành công");
+		} catch (error) {
+			console.log(error);
+		}
+	};
+	const handleRestoreById = async (id: string) => {
+		try {
+			await restoreProduct(id);
+			setProducts(products.filter((product) => product._id !== id));
+			toast.success("Khôi phục sản phẩm thành công");
+		} catch (error) {
+			console.log(error);
+		}
+	};
 	const columns: ColumnsType<IProduct> = [
 		{
 			title: "STT",
@@ -76,13 +100,30 @@ const ProductIndex = () => {
 			key: "quantity",
 		},
 		{
+			title: "Hot",
+			key: "featured",
+			render: (_, product: IProduct) => {
+				console.log("featured", product.featured);
+				return (
+					<span
+						className={cn(
+							product.featured === false
+								? "bg-gray-500 px-2 border border-transparent rounded-full "
+								: "bg-red-500 px-2 border border-transparent rounded-full",
+							"",
+						)}
+					></span>
+				);
+			},
+		},
+		{
 			title: "Hành động",
 			key: "actions",
-			render: (_, category: IProduct) => (
+			render: (_, product: IProduct) => (
 				<Space>
-					{category?.deleted ? (
+					{product?.deleted ? (
 						<Button
-							// onClick={() => handleRestoreCategory(category?._id)}
+							onClick={() => handleRestoreById(product?._id)}
 							type="primary"
 						>
 							Khôi phục
@@ -90,8 +131,8 @@ const ProductIndex = () => {
 					) : (
 						<Popconfirm
 							title="Ẩn"
-							description="Bạn có muốn xóa sản phẩm này không?"
-							// onConfirm={() => handleDeleteCategory(category?._id)}
+							description="Bạn có muốn ẩn sản phẩm này không?"
+							onConfirm={() => handleDeleteById(product?._id)}
 							okText="Ẩn"
 							cancelText="Không"
 						>
@@ -105,7 +146,17 @@ const ProductIndex = () => {
 			),
 		},
 	];
-	console.log("product", products);
+	const handleTabChange = (key: string) => {
+		setSearchObject((prev) => ({
+			...prev,
+			tab: parseInt(key), // Change the tab value
+			page: 1, // Reset page to 1 when tab changes
+		}));
+		setPagination((prev) => ({
+			...prev,
+			current: 1, // Reset current page to 1 when tab changes
+		}));
+	};
 	return (
 		<>
 			<div className="">
@@ -113,7 +164,7 @@ const ProductIndex = () => {
 				<div className="">
 					<Tabs
 						activeKey={String(searchObject.tab)}
-						// onChange={handleTabChange}
+						onChange={handleTabChange}
 						tabBarStyle={{ marginBottom: 24 }}
 					>
 						<Tabs.TabPane tab="Danh mục hiện tại" key="1">
@@ -135,6 +186,27 @@ const ProductIndex = () => {
 							/>
 						</Tabs.TabPane>
 					</Tabs>
+					<Pagination
+						current={pagination.current}
+						pageSize={pagination.pageSize}
+						total={pagination.total}
+						onChange={(page, pageSize) => {
+							setSearchObject((prev) => ({
+								...prev,
+								page,
+								pageSize,
+							}));
+							setPagination((prev) => ({
+								...prev,
+								current: page,
+								pageSize,
+							}));
+						}}
+						// onChange={handleTableChange}
+						// showSizeChanger
+						// pageSizeOptions={["10", "20", "30", "50"]}
+						style={{ marginTop: 16 }}
+					/>
 				</div>
 			</div>
 		</>

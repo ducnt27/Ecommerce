@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 .padding {
-	@apply px-[10px] sm:px-[30px] md:px-[40px] xl:px-[50px] 2xl:px-[60px];
+	@apply px-[12px] sm:px-[20px] md:px-[30px] xl:px-[48px];
 }
 .custom-label .ant-form-item-label {
 	font-weight: bold;
+	font-size: 16px;
 	color: #1890ff;
 	padding: 0;
-	font-size: 16px;
 }
 .ant-form-item-label > label {
 	font-size: 16px;

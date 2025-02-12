@@ -1,5 +1,6 @@
 import instance from "@/config/instance";
-import { ICategory, ISearchObject } from "@/interfaces/products";
+import { ICategory } from "@/interfaces/products";
+import { ISearchObject } from "@/interfaces/searchObject";
 
 export const addCategory = (data: ICategory) => {
 	const uri = `/category/createCategory`;
@@ -9,8 +10,12 @@ export const updateCategory = (id: string, data: ICategory) => {
 	const uri = `/category/update/${id}`;
 	return instance.put(uri, data);
 };
+export const getAllCate = () => {
+	const uri = `/category/getAll`;
+	return instance.get(uri);
+};
 export const getAll = ({ page, pageSize, tab }: ISearchObject) => {
-	const uri = "/category/getAll"; // Endpoint chính cho danh mục
+	const uri = "/category/pagingCategories"; // Endpoint chính cho danh mục
 	// Truyền các tham số dưới dạng query parameters trong URL
 	const params = {
 		page,

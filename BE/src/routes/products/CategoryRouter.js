@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   createCategory,
   deleteCategory,
+  getAll,
   getAllCategories,
   getCategoryById,
   getCategoryBySlug,
@@ -11,7 +12,8 @@ import {
 
 const categoryRouter = Router();
 
-categoryRouter.get(`/getAll`, getAllCategories);
+categoryRouter.get(`/getAll`, getAll);
+categoryRouter.get(`/pagingCategories`, getAllCategories);
 categoryRouter.get(`/getCategoryById/:id`, getCategoryById);
 categoryRouter.get(`/getCategoryBySlug/:slug`, getCategoryBySlug);
 categoryRouter.post(`/createCategory`, createCategory);
